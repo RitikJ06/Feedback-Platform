@@ -50,7 +50,7 @@ app.post("/login", async (req, res, next) => {
           expiresIn: "2h",
         });
         return res.send({
-          status: 202,  
+          status: 200,  
           message: "User logged in successfully",
           name: user.name,
           jwtToken,

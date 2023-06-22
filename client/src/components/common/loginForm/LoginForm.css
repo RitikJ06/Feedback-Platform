@@ -1,0 +1,45 @@
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.formRow{
+    display: flex;
+    width: 100%;
+    padding: 3%;
+    box-sizing: border-box;
+}
+.formInput{
+    width: 92%;
+    border: none;
+    border-bottom: solid 1px #AAAAAA;
+}
+.formInput:focus{
+    border-bottom: solid 1px #AAAAAA;
+    outline: none;
+}
+.formIcon{
+    box-sizing: border-box;
+    padding: 0px 15px 0px 0px;
+    width: 8%;
+}
+.loginButton{
+    background-color: #36416A;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    padding: 1.5% 5%;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.loginButtonRow{
+    justify-content: flex-end;
+}
+.errBlock{
+    background-color: rgb(255, 74, 74);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2%;
+    border-radius: 10px;
+    display: none;
+}
