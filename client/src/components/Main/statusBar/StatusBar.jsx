@@ -1,5 +1,7 @@
 import React from "react";
+import axios from 'axios'
 import "./StatusBar.css";
+
 
 export default function StatusBar(props) {
   return (
@@ -8,22 +10,23 @@ export default function StatusBar(props) {
       <div className="sortSelectionWrapper">
         {props.isDesktop && <span className="sortBy">Sort by:</span>}
         <select onChange={(e) => {
-            console.log(e.target.value);
-            let sortedProducts = []
-            if(e.target.value == "upvotes"){
-                sortedProducts = props.products.sort((a, b) => a.upvotes > b.upvotes ? -1 : 1)
+            const getProducts = async () => {
+              props.setSortBy(e.target.value);
+
+              try{
+                const res = await axios.get("http://localhost:8000/api/products", 
+                  {params: {filterByCategory: props.filterBy==='All'? null : props.filterBy, sortBy: e.target.value}} )
+                props.setProducts(res.data)
+              }
+              catch{
+                console.log('something went wrong!')
+              }
             }
-            else if (e.target.value == "comment"){
-                sortedProducts = props.products.sort((a, b) => a.comments.length > b.comments.length ? -1 : 1)
-            }
-            else{
-                sortedProducts = props.products;
-            }
-            console.log(sortedProducts)
-            props.setProducts([...sortedProducts])
+            getProducts();
+
         }} className="sortSelector">
           <option value="upvotes">Upvotes</option>
-          <option value="comment">Comment</option>
+          <option value="comments">Comment</option>
         </select>
       </div>
       <button className="addProductButton">+ Add Product</button>

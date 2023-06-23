@@ -128,7 +128,7 @@ app.post("/api/products", isAuthenticated, async (req, res, next) => {
       upvotes: 0
     });
 
-    return res.json({ staus: 201, message: "Product added successfully" });
+    return res.json({ status: 201, message: "Product added successfully" });
   } catch {
     const err = new Error("Error creating new product");
     err.status = 500;
@@ -139,7 +139,7 @@ app.post("/api/products", isAuthenticated, async (req, res, next) => {
 // api to get all products or with filter
 app.get("/api/products", async (req, res, next) => {
   try {
-    const { filterByCategory } = req.query;
+    const { filterByCategory, sortBy } = req.query;
     let products;
     if (filterByCategory) {
       products = await Product.find({
@@ -149,7 +149,14 @@ app.get("/api/products", async (req, res, next) => {
       products = await Product.find();
     }
 
-    res.json(products);
+    let sortedProducts = []
+    if(sortBy === "comments"){
+      sortedProducts = products.sort((a, b) => a.comments.length > b.comments.length ? -1 : 1)
+    }
+    else{
+      sortedProducts = products.sort((a, b) => a.upvotes > b.upvotes ? -1 : 1)
+    }
+    res.json(sortedProducts);
 
   } catch {
     const err = new Error("Error Fetching products");
@@ -190,7 +197,7 @@ app.put("/api/products/:id", isAuthenticated, async (req, res, next) => {
       description
     })
 
-    return res.json({ staus: 200, message: "Product updated successfully"});
+    return res.json({ status: 200, message: "Product updated successfully"});
   } catch {
     const err = new Error("Error updating the product");
     err.status = 500;
@@ -203,7 +210,7 @@ app.patch('/api/product/comment/:id', async (req, res, next) => {
   const {id} = req.params;
   const {comment} = req.body;
   try{
-    if(!comment){
+    if(!comment.trim()){
       const err = new Error("Comment field cannot be empty");
       err.status = 400;
       next(err);
@@ -214,7 +221,7 @@ app.patch('/api/product/comment/:id', async (req, res, next) => {
     // update comments
     await Product.findByIdAndUpdate(id, {comments: [comment, ...comments]} )
 
-    return res.json({ staus: 200, message: "Product updated successfully"});
+    return res.json({ status: 200, message: "Product updated successfully"});
   }
   catch {
     const err = new Error("Error updating the product");
@@ -232,7 +239,7 @@ app.patch('/api/product/upvote/:id', async (req, res, next) => {
     const existingUpvotes = product.upvotes;
     await Product.findByIdAndUpdate(id, {upvotes: existingUpvotes+1} )
 
-    return res.json({ staus: 200, message: "Product updated successfully"});
+    return res.json({ status: 200, message: "Product updated successfully"});
   }
   catch {
     const err = new Error("Error updating the product");

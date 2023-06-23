@@ -6,6 +6,7 @@
     margin: 20px 0px;
     padding: 1% 2%;
     box-sizing: border-box;
+    border-radius: 4px;
 }
 .cardDetailSection{
     display: flex;
@@ -82,6 +83,7 @@
     padding: 9px;
     box-sizing: border-box;
     border-radius: 15px;
+    cursor: pointer;
 }
 .cardDetailsBottomRightSection{
     display: flex;
@@ -103,9 +105,13 @@
 }
 .commentInput{
     width: 100%;
-    padding: 8px;
+    padding: 8px 20px;
     border-radius: 40px;
+    
     border: solid 3px #C7CBD6;
+}
+.commentInput:focus{
+    outline: none;
 }
 .sendIcon{
     position: absolute;

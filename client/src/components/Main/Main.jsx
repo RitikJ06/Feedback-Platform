@@ -17,6 +17,7 @@ export default function Main() {
   const [filters, setFilters] = useState(new Set(["All"]));
   const [filterBy, setFilterBy] = useState("All");
   const [products, setProducts] = useState([]);
+  const [sortBy, setSortBy] = useState("upvotes");
 
   const [productCount, setProductCount] = useState(0);
 
@@ -24,7 +25,6 @@ export default function Main() {
     const fetchData = async () => {
       try {
         const res = await axios.get("http://localhost:8000/api/products");
-
         let all_filters = new Set();
         res.data.map((item) => {
           item.category.map((cate) => {
@@ -34,13 +34,7 @@ export default function Main() {
         all_filters = new Set([...filters, ...all_filters]);
         setFilters(all_filters);
 
-        // sort the products by upvotes
-        let sortedProducts = res.data.sort((a, b) =>
-          a.upvotes > b.upvotes ? -1 : 1
-        );
-
-        setProducts(sortedProducts);
-        console.log(res.data);
+        setProducts(res.data);
         setProductCount(res.data.length);
       } catch {
         console.log("Someting went wrong!");
@@ -65,7 +59,15 @@ export default function Main() {
             </div>
           )}
           {!isDesktop && (
-            <StatusBar productCount={productCount} isDesktop={isDesktop} />
+            <StatusBar
+              productCount={productCount}
+              setProducts={setProducts}
+              products={products}
+              isDesktop={isDesktop}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              filterBy={filterBy}
+            />
           )}
 
           <div className="filterButtonsWrapper">
@@ -80,17 +82,18 @@ export default function Main() {
                   }
                   onClick={() => {
                     try {
-                        if(filter === "All"){
-                          filter = null;
-                        }
-                        const getFilteredProdcts = async () => {
-                          let res = await axios.get("http://localhost:8000/api/products",{params : { filterByCategory: filter }
-                        });
-                          console.log(res.data);
-                          setProducts(res.data);
-                          setFilterBy(filter);
-                        };
-                        getFilteredProdcts();
+                      if (filter === "All") {
+                        filter = null;
+                      }
+                      const getFilteredProdcts = async () => {
+                        let res = await axios.get(
+                          "http://localhost:8000/api/products",
+                          { params: { filterByCategory: filter, sortBy:sortBy} }
+                        );
+                        setProducts(res.data);
+                        setFilterBy(filter);
+                      };
+                      getFilteredProdcts();
                     } catch {
                       console.log("Error fetching data");
                     }
@@ -110,6 +113,9 @@ export default function Main() {
               setProducts={setProducts}
               products={products}
               isDesktop={isDesktop}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              filterBy={filterBy}
             />
           )}
           <div className="productCardsWrapper">

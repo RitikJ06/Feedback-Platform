@@ -1,13 +1,54 @@
 import React from "react";
 import "./ProductBlock.css";
+import axios from 'axios';
 import commentIcon from "./../../../images/comment_icon.svg";
 import commentCountIcon from "./../../../images/comment_count_icon.svg";
 import sendIcon from "./../../../images/send_icon.svg";
 
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function ProductBlock(props) {
   const commentSectionRef = useRef();
+  const commentRef = useRef();
+  const [comments, setComments] = useState([]);
+  const [upvoteCount, setUpvoteCount] = useState(0);
+  useEffect(() => {
+    setComments(props.product.comments)
+    setUpvoteCount(props.product.upvotes)
+  }, [])
+
+  const updateUpvotes = async () => {
+    try{
+      const res = await axios.patch('http://localhost:8000/api/product/upvote/' + props.product._id)
+      console.log(res.data, typeof(res.data.status))
+      if(res.data.status === 200){
+        setUpvoteCount((count) => count+1)
+      }
+    }
+    catch{
+      console.log('error')
+    }
+  }
+
+  const saveComment = async () => {
+    try{
+      if (!commentRef.current.value.trim()){
+        return
+      }
+      const res = await axios.patch('http://localhost:8000/api/product/comment/' + props.product._id, 
+        {comment: commentRef.current.value}
+      )
+      console.log(res.data, typeof(res.data.status))
+      if(res.data.status == 200){
+        setComments([...comments, commentRef.current.value])
+        commentRef.current.value = ""
+      }
+    }
+    catch{
+      console.log('error')
+    }
+  }
+
   return (
     <div className="productCard">
       <div className="cardDetailSection">
@@ -27,9 +68,9 @@ export default function ProductBlock(props) {
               <p>{props.product.description}</p>
             </div>
             <div className="cardDetailsTopRightSection">
-              <div className="upvoteCounter">
+              <div className="upvoteCounter" onClick={() => updateUpvotes()}>
                 <div>^</div>
-                <div>{props.product.upvotes}</div>
+                <div>{upvoteCount}</div>
               </div>
             </div>
           </div>
@@ -44,11 +85,9 @@ export default function ProductBlock(props) {
                 className="commentWrapper"
                 onClick={() =>
                   {
-                    console.log( typeof(commentSectionRef.current.style.display)  + "this isd ")
                     !commentSectionRef.current.style.display || commentSectionRef.current.style.display === "none"
                     ? (commentSectionRef.current.style.display = "flex")
                     : (commentSectionRef.current.style.display = "none")
-                    
                   }
                 }
               >
@@ -59,7 +98,7 @@ export default function ProductBlock(props) {
 
             <div className="cardDetailsBottomRightSection">
               <div className="commentCounter">
-                {props.product.comments.length} &nbsp;
+                {comments.length} &nbsp;
                 <img src={commentCountIcon} alt="comment count icon" />
               </div>
             </div>
@@ -69,21 +108,26 @@ export default function ProductBlock(props) {
       <div className="commentSection" ref={commentSectionRef}>
         <div className="commentInputWrapper">
           <input
+            onKeyUp={(e) => {
+              e.preventDefault()
+              if (e.keyCode === 13) {
+                saveComment()
+              }
+            }}
+            ref={commentRef}
             placeholder="Add a comment..."
             className="commentInput"
             type="text"
           />
-          <img src={sendIcon} alt="send icon" className="sendIcon" />
+          <img src={sendIcon} onClick={() => saveComment()} alt="send icon" className="sendIcon" />
         </div>
-        {props.product.comments.length > 0 && (
           <div className="commentsWrapper">
             <ul>
-              {props.product.comments.map((comment, i) => {
+              {comments.map((comment, i) => {
                 return <li key={i}>{comment}</li>;
               })}
             </ul>
           </div>
-        )}
       </div>
     </div>
   );
