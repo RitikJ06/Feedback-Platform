@@ -43,3 +43,8 @@
     border-radius: 10px;
     display: none;
 }
+.formChanger{
+    color: #36416A;
+    text-decoration: underline;
+    font-weight: 500;
+}

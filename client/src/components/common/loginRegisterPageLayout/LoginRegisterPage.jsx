@@ -3,6 +3,7 @@ import './LoginRegisterPage.css'
 
 
 export default function LoginRegisterPage(props) {
+
   return (
     <div className='wrapper'>
         <div className='innerWrapper'>

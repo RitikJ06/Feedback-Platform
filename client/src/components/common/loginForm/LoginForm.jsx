@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom'
 import emailIcon from "./../../../images/email_icon.svg";
 import passIcon from "./../../../images/password_icon.svg";
 
-
+import SignupForm from "../SignupForm/SignupForm"
 // const dotenv = require("dotenv");
 // dotenv.config();
 
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const errRef = useRef();
@@ -21,24 +21,29 @@ export default function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(process.env.BASE_URL +  "/login")
-    let res = await axios.post("http://localhost:8000/login", {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    });
-  
-    if (res.data.status === 200) {
-      localStorage.setItem(
-        "data",
-        JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
-      );
-      navigate("/");
-    } else if (res.data.status === 401) {
-      errRef.current.innerHTML = "Invalid credential, Please Try again!";
-      errRef.current.style.display = "block";
-    } else {
-      errRef.current.innerHTML = "Something went wrong, Please Try again later";
-      errRef.current.style.display = "block";
+    try{
+        let res = await axios.post("http://localhost:8000/login", {
+            email: emailRef.current.value,
+        password: passwordRef.current.value,
+        });
+        
+        if (res.data.status === 200) {
+        localStorage.setItem(
+            "data",
+            JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
+        );
+        navigate("/");
+        } else if (res.data.status === 401) {
+            errRef.current.innerHTML = "Invalid credential, Please Try again!";
+        errRef.current.style.display = "block";
+        } else {
+            errRef.current.innerHTML = "Server Error, Please Try again later";
+            errRef.current.style.display = "block";
+        }
+    }
+    catch{
+        errRef.current.innerHTML = "Something went wrong, Please Try again later";
+        errRef.current.style.display = "block";
     }
   };
 
@@ -69,7 +74,7 @@ export default function LoginForm() {
         />
       </div>
       <div className="formRow">
-        Don’t have an account? &nbsp;<a href="./signup">Sign Up</a>
+        Don’t have an account? &nbsp;<span className="formChanger" onClick={() => {props.setForm(<SignupForm setForm={props.setForm}/>)}} >Sign Up</span>
       </div>
       <div className="formRow loginButtonRow">
         <button className="loginButton">Log in</button>

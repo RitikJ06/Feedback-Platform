@@ -8,8 +8,9 @@ import userIcon from './../../../images/user_icon.svg'
 import emailIcon from './../../../images/email_icon.svg'
 import passIcon from './../../../images/password_icon.svg'
 import mobileIcon from './../../../images/mobile_icon.svg'
+import LoginForm from '../loginForm/LoginForm'
 
-export default function SignupForm() {
+export default function SignupForm(props) {
   const nameRef = useRef()
   const emailRef = useRef()
   const mobileRef = useRef()
@@ -20,8 +21,9 @@ export default function SignupForm() {
 
   const handleSignup = async (e) => {
     e.preventDefault()
-        let res = await axios.post( 'http://localhost:8000/register', {
-          name: nameRef.current.value,
+    try{
+      let res = await axios.post( 'http://localhost:8000/register', {
+        name: nameRef.current.value,
           email: emailRef.current.value,
           mobile: mobileRef.current.value,
           password: passwordRef.current.value
@@ -37,9 +39,14 @@ export default function SignupForm() {
           errRef.current.style.display = "block"
         }
         else{
-          errRef.current.innerHTML = "Something went wrong, Please Try again later";
+          errRef.current.innerHTML = "Server Error, Please Try again later";
           errRef.current.style.display = "block"
         }
+    }
+    catch{
+      errRef.current.innerHTML = "Something went wrong, Please Try again later";
+      errRef.current.style.display = "block"
+    }
   }
 
   return (
@@ -62,7 +69,7 @@ export default function SignupForm() {
             <input className='formInput' type='password' placeholder='Password' name='password' required ref={passwordRef}/>
         </div>
         <div className='formRow'>
-          Already have an account? &nbsp;<a href='./login'>Log in</a>
+          Already have an account? &nbsp;<span className='formChanger' onClick={() => {props.setForm(<LoginForm setForm={props.setForm}/>)}}>Log in</span>
         </div>
         <div className='formRow signupButtonRow'>
             <button className='signupButton'>Signup</button>
