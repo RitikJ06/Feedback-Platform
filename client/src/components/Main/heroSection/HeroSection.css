@@ -4,19 +4,17 @@
 }
 .heroImageWrapper{
     display: flex;
-    height: 100%;
     width: 40%;
     justify-content: center;
     align-items: center;
 }
 .heroImage{
     display: flex;
-    height: 90%;
+    height: 80%;
 }
 .heroTextWrapper{
     width: 60%;
     display: flex;
-    height: 100%;
     flex-direction: column;
     justify-content: center;
 }
