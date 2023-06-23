@@ -4,6 +4,7 @@ import axios from "axios";
 import NavBar from "./navBar/NavBar";
 import HeroSection from "./heroSection/HeroSection";
 import StatusBar from "./statusBar/StatusBar";
+import ProductBlock from "./productBlock/ProductBlock";
 
 import { useState, useEffect } from "react";
 
@@ -15,6 +16,7 @@ export default function Main() {
 
   const [filters, setFilters] = useState(new Set(["All"]));
   const [filterBy, setFilterBy] = useState("All");
+  const [products, setProducts] = useState([]);
 
   const [productCount, setProductCount] = useState(0);
 
@@ -22,6 +24,7 @@ export default function Main() {
     const fetchData = async () => {
       try {
         const res = await axios.get("http://localhost:8000/api/products");
+
         let all_filters = new Set();
         res.data.map((item) => {
           item.category.map((cate) => {
@@ -30,6 +33,8 @@ export default function Main() {
         });
         all_filters = new Set([...filters, ...all_filters]);
         setFilters(all_filters);
+        setProducts(res.data);
+        console.log(res.data);
         setProductCount(res.data.length);
       } catch {
         console.log("Someting went wrong!");
@@ -47,19 +52,20 @@ export default function Main() {
 
       <div className="productSectionWrapper">
         <div className="filterWrapper">
-          {isDesktop &&
+          {isDesktop && (
             <div className="filterHeading">
-            <h1>Feedback</h1>
-            <p>Apply filter</p>
-          </div>
-          }
-          {!isDesktop && <StatusBar productCount={productCount} isDesktop={isDesktop}/>
-          }
+              <h1>Feedback</h1>
+              <p>Apply filter</p>
+            </div>
+          )}
+          {!isDesktop && (
+            <StatusBar productCount={productCount} isDesktop={isDesktop} />
+          )}
 
           <div className="filterButtonsWrapper">
             {[...filters].map((filter) => {
               return (
-                <span
+                <span key={filter}
                   className={
                     filter === filterBy
                       ? "filterButton selectedFilter"
@@ -72,13 +78,17 @@ export default function Main() {
               );
             })}
           </div>
-
         </div>
 
         <div className="productSection">
-          {isDesktop && 
-            <StatusBar productCount={productCount} isDesktop={isDesktop}/>
-          }
+          {isDesktop && (
+            <StatusBar productCount={productCount} isDesktop={isDesktop} />
+          )}
+          <div className="productCardsWrapper">
+            {products.map((product) => (
+              <ProductBlock key={product} product={product} isDesktop={isDesktop}/>
+            ))}
+          </div>
         </div>
       </div>
     </>

@@ -1,0 +1,137 @@
+.productCard{
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    background: #36416A26;
+    margin: 20px 0px;
+    padding: 1% 2%;
+    box-sizing: border-box;
+}
+.cardDetailSection{
+    display: flex;
+    width: 100%;
+}
+.logoImageWrapper{
+    width: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10px;
+    box-sizing: border-box;
+}
+.productLogo{
+    width: 70%;   
+}
+.cardInnerWrapper{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 100%;
+}
+.cardInnerWrapper h2{
+    margin: 5px 0px;
+    color: #36416A;
+}
+.cardInnerWrapper a{
+    text-decoration: none;
+}
+.cardInnerWrapper p{
+    margin: 5px 0px;
+}
+.cardDetailsBottomSection{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.cardDetailsBottomLeftSection{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    margin: 5px 0px;
+}
+.categoryWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 60%;
+}
+.categoryItem{
+    padding: 5px 10px;
+    background: #C0CEFF;
+    border-radius: 27px;
+    margin: 5px 15px 0px 0px;
+}
+.commentWrapper{
+    cursor: pointer;
+}
+.cardDetailsTopSection{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.cardDetailsTopLeftSection{
+    display: flex;
+    flex-direction: column;
+}
+.upvoteCounter{
+    background: #C7CBD6;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 9px;
+    box-sizing: border-box;
+    border-radius: 15px;
+}
+.cardDetailsBottomRightSection{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.commentSection{
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+    display: none;
+}
+.commentInputWrapper{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+}
+.commentInput{
+    width: 100%;
+    padding: 8px;
+    border-radius: 40px;
+    border: solid 3px #C7CBD6;
+}
+.sendIcon{
+    position: absolute;
+    right: 2%;
+    bottom: 7%;
+    cursor: pointer;
+}
+.commentsWrapper{
+    color:#999999;
+    max-height: 20vh;
+    overflow: auto;
+    overflow-x: hidden !important;
+    margin-top: 10px;
+}
+
+li{
+    margin: 10px 0px;
+}
+.commentsWrapper::-webkit-scrollbar {
+    width: 12px;
+  }
+.commentsWrapper::-webkit-scrollbar-track {
+background: white;
+}
+.commentsWrapper::-webkit-scrollbar-thumb {
+background-color: #C7CBD6;
+border-radius: 20px;
+border: 3px solid #C7CBD6;
+}

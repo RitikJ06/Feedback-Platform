@@ -159,7 +159,7 @@ app.get("/api/products", async (req, res, next) => {
 });
 
 
-// api to edit a product
+// api to update a product
 app.put("/api/products/:id", isAuthenticated, async (req, res, next) => {
   const {id} = req.params;
   const {
@@ -197,6 +197,49 @@ app.put("/api/products/:id", isAuthenticated, async (req, res, next) => {
     next(err);
   }
 });
+
+// api to add a new comment
+app.patch('/api/product/comment/:id', async (req, res, next) => {
+  const {id} = req.params;
+  const {comment} = req.body;
+  try{
+    if(!comment){
+      const err = new Error("Comment field cannot be empty");
+      err.status = 400;
+      next(err);
+    }
+    // get all existing comments
+    const product = await Product.findById(id);
+    const comments = product.comments;
+    // update comments
+    await Product.findByIdAndUpdate(id, {comments: [comment, ...comments]} )
+
+    return res.json({ staus: 200, message: "Product updated successfully"});
+  }
+  catch {
+    const err = new Error("Error updating the product");
+    err.status = 500;
+    next(err);
+  }
+})
+
+// api increase upvode
+app.patch('/api/product/upvote/:id', async (req, res, next) => {
+  const {id} = req.params;
+  try{
+    // get no of upvotes
+    const product = await Product.findById(id);
+    const existingUpvotes = product.upvotes;
+    await Product.findByIdAndUpdate(id, {upvotes: existingUpvotes+1} )
+
+    return res.json({ staus: 200, message: "Product updated successfully"});
+  }
+  catch {
+    const err = new Error("Error updating the product");
+    err.status = 500;
+    next(err);
+  }
+})
 
 app.use((req, res, next) => {
   const err = new Error("Not found");
