@@ -1,0 +1,38 @@
+.statusBarWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    box-sizing: border-box;
+    border: 3px solid #36416A59;
+    padding: 1% 2%;
+    border-radius: 8px;
+}
+.suggestionsCount{
+    font-weight: 700;
+    color: black;
+}
+.sortSelectionWrapper{
+    display: inline-block;
+}
+.sortBy{
+    color: #8B8B8B;
+}
+.sortSelector{
+    color: black;
+    font-weight: 700;
+    border: none;
+}
+.sortSelector:focus{
+    outline: none;
+    border:none;
+}
+.addProductButton{
+    background: #36416A;
+    color: white;
+    font-weight: 600;
+    padding: 1% 2%;
+    border: none;
+    border-radius: 7px;
+    box-sizing: border-box;
+}

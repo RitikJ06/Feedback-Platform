@@ -2,12 +2,13 @@
     display: flex;
     margin-top: 5%;
     box-sizing: border-box;
+    justify-content: space-between;
 }
 .filterWrapper{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 25%;
+    width: 30%;
 }
 .filterHeading{
     width: 75%;
@@ -43,4 +44,9 @@
 .selectedFilter{
     background: #36416A;
     color: white;
+}
+
+.productSection{
+    width: 70%;
+
 }

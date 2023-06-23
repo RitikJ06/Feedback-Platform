@@ -8,9 +8,6 @@ import emailIcon from "./../../../images/email_icon.svg";
 import passIcon from "./../../../images/password_icon.svg";
 
 import SignupForm from "../SignupForm/SignupForm"
-// const dotenv = require("dotenv");
-// dotenv.config();
-
 
 export default function LoginForm(props) {
   const emailRef = useRef();
