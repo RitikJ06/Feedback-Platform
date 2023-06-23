@@ -1,0 +1,55 @@
+.headerBlock{
+    width: 100vw;
+    height: 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 5%;
+    color: white;
+    background: #36416A;
+    box-sizing: border-box;
+}
+.navItemsWrapper{
+    display: flex;
+    width: fit-content!important;
+    justify-content: flex-end;
+    align-items: center;
+}
+.logoutButton{
+    cursor: pointer;
+    margin: 0px 2%;
+    color: white;
+    text-decoration: none;
+}
+.userName{
+    width: fit-content;
+    text-wrap: nowrap;
+}
+.navLoginButton{
+    background: rgba(0, 0, 0, 0);
+    color: white;
+    padding: 7% 15%;
+    border: none;
+    margin: 0px 5%;
+    cursor: pointer;
+    font-weight: 500;
+    text-wrap: nowrap;
+    text-decoration: none;
+}
+.navSignupButton{
+    background: #36416A;
+    color: white;
+    padding: 7% 15%;
+    border: solid 2px white;
+    border-radius: 7px;
+    margin: 0px 5%;
+    cursor: pointer;
+    font-weight: 500;
+    text-wrap: nowrap;
+    text-decoration: none;
+}
+.userImage{
+    width: 6%;
+    margin: 0px 2%;
+    border-radius: 50px;
+}
