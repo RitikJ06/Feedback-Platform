@@ -1,0 +1,30 @@
+.heroSectionWrapper{
+    display: flex;
+    height: 55%;
+}
+.heroImageWrapper{
+    display: flex;
+    height: 100%;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+.heroImage{
+    display: flex;
+    height: 90%;
+}
+.heroTextWrapper{
+    width: 60%;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+.heroTextWrapper h1{
+    font-size: 2.2em;
+    line-height: 3rem;
+    margin: 10px 0px;
+}
+.heroTextWrapper p{
+    line-height: 1.8rem;
+}
