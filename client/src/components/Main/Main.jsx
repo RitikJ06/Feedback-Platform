@@ -33,7 +33,13 @@ export default function Main() {
         });
         all_filters = new Set([...filters, ...all_filters]);
         setFilters(all_filters);
-        setProducts(res.data);
+
+        // sort the products by upvotes
+        let sortedProducts = res.data.sort((a, b) =>
+          a.upvotes > b.upvotes ? -1 : 1
+        );
+
+        setProducts(sortedProducts);
         console.log(res.data);
         setProductCount(res.data.length);
       } catch {
@@ -65,13 +71,30 @@ export default function Main() {
           <div className="filterButtonsWrapper">
             {[...filters].map((filter) => {
               return (
-                <span key={filter}
+                <span
+                  key={filter}
                   className={
                     filter === filterBy
                       ? "filterButton selectedFilter"
                       : "filterButton"
                   }
-                  onClick={() => setFilterBy(filter)}
+                  onClick={() => {
+                    try {
+                        if(filter === "All"){
+                          filter = null;
+                        }
+                        const getFilteredProdcts = async () => {
+                          let res = await axios.get("http://localhost:8000/api/products",{params : { filterByCategory: filter }
+                        });
+                          console.log(res.data);
+                          setProducts(res.data);
+                          setFilterBy(filter);
+                        };
+                        getFilteredProdcts();
+                    } catch {
+                      console.log("Error fetching data");
+                    }
+                  }}
                 >
                   {filter}
                 </span>
@@ -82,11 +105,16 @@ export default function Main() {
 
         <div className="productSection">
           {isDesktop && (
-            <StatusBar productCount={productCount} isDesktop={isDesktop} />
+            <StatusBar
+              productCount={productCount}
+              setProducts={setProducts}
+              products={products}
+              isDesktop={isDesktop}
+            />
           )}
           <div className="productCardsWrapper">
-            {products.map((product) => (
-              <ProductBlock key={product} product={product} isDesktop={isDesktop}/>
+            {products.map((product, i) => (
+              <ProductBlock key={i} product={product} isDesktop={isDesktop} />
             ))}
           </div>
         </div>

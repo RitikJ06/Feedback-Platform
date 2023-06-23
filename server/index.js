@@ -139,7 +139,7 @@ app.post("/api/products", isAuthenticated, async (req, res, next) => {
 // api to get all products or with filter
 app.get("/api/products", async (req, res, next) => {
   try {
-    const { filterByCategory } = req.body;
+    const { filterByCategory } = req.query;
     let products;
     if (filterByCategory) {
       products = await Product.find({
