@@ -2,7 +2,7 @@ import React from "react";
 import "./AddProductForm.css";
 import axios from "axios";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 export default function AddProductForm(props) {
   const nameRef = useRef();
@@ -11,8 +11,18 @@ export default function AddProductForm(props) {
   const linkRef = useRef();
   const descriptionRef = useRef();
 
+  useEffect(() => {
+    if(props.isEditing){
+      nameRef.current.value= props.product.name
+
+    }
+    console.log("editing!", props.isEditing)
+
+  }, [props.isEditing])
+  
+
   const createProduct = async () => {
-    let userData = JSON.parse(localStorage.getItem("data"));
+    let userData = props.userData;
     if (!userData) {
       userData = { jwtToken: false };
     }
@@ -47,6 +57,7 @@ export default function AddProductForm(props) {
         type="text"
         placeholder="Name of the company"
         name="name"
+        defaultValue={props.product ? props.product[0] : "test"}
         required
       />
       <input

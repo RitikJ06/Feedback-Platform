@@ -7,7 +7,6 @@ import StatusBar from "./statusBar/StatusBar";
 import ProductBlock from "./productBlock/ProductBlock";
 import OverlayFormLayout from "../common/overlayFormLayouy/OverlayFormLayout";
 
-import LoginForm from "../common/loginForm/LoginForm";
 import SignupForm from "../common/SignupForm/SignupForm";
 import AddProductForm from "../addProductForm/AddProductForm";
 import { useState, useEffect, useRef } from "react";
@@ -19,6 +18,7 @@ export default function Main() {
   };
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [filters, setFilters] = useState(new Set(["All"]));
   const [filterBy, setFilterBy] = useState("All");
   const [products, setProducts] = useState([]);
@@ -26,8 +26,14 @@ export default function Main() {
   const [productCount, setProductCount] = useState(0);
   const [userData, setUserData] = useState(null);
   const [overlayWrapperForm, setOverlayWrapperForm] = useState();
+  const [product, setProduct] = useState();
 
   const overlayWrapperRef = useRef();
+  useEffect(() => {
+    isLoggedIn ? setOverlayWrapperForm(<AddProductForm isEditing={isEditing} product={product} overlayWrapperRef={overlayWrapperRef}/>) : setOverlayWrapperForm(<SignupForm isDesktop={isDesktop} setOverlayWrapperForm={setOverlayWrapperForm} isMain={true} userData={userData}/>)
+  
+  }, [isLoggedIn])
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,8 +65,6 @@ export default function Main() {
         setFilters(all_filters);
         setProducts(res.data);
         setProductCount(res.data.length);
-
-        isLoggedIn ? setOverlayWrapperForm(<AddProductForm overlayWrapperRef={overlayWrapperRef}/>) : setOverlayWrapperForm(<SignupForm isDesktop={isDesktop} setOverlayWrapperForm={setOverlayWrapperForm} isMain={true}/>)
 
       } catch {
         console.log("Someting went wrong!");
@@ -154,8 +158,8 @@ export default function Main() {
             />
           )}
           <div className="productCardsWrapper">
-            {products.map((product, i) => (
-              <ProductBlock key={i} isLoggedIn={isLoggedIn} product={product} isDesktop={isDesktop} />
+            {products.map((currentProduct, i) => (
+              <ProductBlock key={i} isLoggedIn={isLoggedIn} product={currentProduct} isDesktop={isDesktop} overlayWrapperRef={overlayWrapperRef} setIsEditing={setIsEditing} setProduct={setProduct} parentProduct={[product]} />
             ))}
           </div>
         </div>

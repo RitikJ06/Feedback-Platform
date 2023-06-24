@@ -51,6 +51,12 @@ export default function ProductBlock(props) {
     }
   };
 
+  const editProduct = () => {
+    props.setIsEditing(true)
+    props.setProduct([props.product])
+    props.overlayWrapperRef.current.style.display = "flex";
+  };
+
   return (
     <div className="productCard">
       <div className="cardDetailSection">
@@ -100,7 +106,7 @@ export default function ProductBlock(props) {
             </div>
 
             <div className="cardDetailsBottomRightSection">
-              {props.isLoggedIn && <button      className="editButton">Edit</button>}
+              {props.isLoggedIn && <button className="editButton" onClick={()=>editProduct()}>Edit</button>}
               <div className="commentCounter">
                 {comments.length} &nbsp;
                 <img src={commentCountIcon} alt="comment count icon" />
