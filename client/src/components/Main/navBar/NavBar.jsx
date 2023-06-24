@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import userImg from './../../../images/user-image.png'
 import './NavBar.css'

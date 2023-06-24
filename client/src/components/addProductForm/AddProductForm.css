@@ -12,6 +12,7 @@
 .productFormInput::placeholder{
     font-weight: 500;
     color: #737373;
+    font-size: 0.9rem;
 }
 .productFormInput:focus{
     border-bottom: solid 1px #AAAAAA;

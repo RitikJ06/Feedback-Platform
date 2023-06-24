@@ -9,6 +9,8 @@ import emailIcon from "./../../../images/email_icon.svg";
 import passIcon from "./../../../images/password_icon.svg";
 import mobileIcon from "./../../../images/mobile_icon.svg";
 
+import LoginForm from "../loginForm/LoginForm";
+
 export default function SignupForm(props) {
   const nameRef = useRef();
   const emailRef = useRef();
@@ -102,14 +104,23 @@ export default function SignupForm(props) {
           ref={passwordRef}
         />
       </div>
-      {!props.isMain && (
-        <div className="formRow">
-          Already have an account? &nbsp;
+      <div className="formRow">
+        Already have an account? &nbsp;
+        {props.isMain ? (
+          <span
+            onClick={() => {
+              props.setOverlayWrapperForm(<LoginForm isMain={props.isMain} setOverlayWrapperForm={props.setOverlayWrapperForm} />);
+            }}
+            className="formChanger"
+          >
+            Log in
+          </span>
+        ) : (
           <Link to="/login" className="formChanger">
             Log in
           </Link>
-        </div>
-      )}
+        )}
+      </div>
       <div
         className={
           props.isMain ? "formRow loginButtonStart" : "formRow loginButtonEnd"

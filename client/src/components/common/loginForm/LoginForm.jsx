@@ -6,6 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import emailIcon from "./../../../images/email_icon.svg";
 import passIcon from "./../../../images/password_icon.svg";
+import SignupForm from "../SignupForm/SignupForm";
 
 export default function LoginForm(props) {
   const emailRef = useRef();
@@ -70,14 +71,24 @@ export default function LoginForm(props) {
           ref={passwordRef}
         />
       </div>
-      {!props.isMain && (
-        <div className="formRow">
-          Don’t have an account? &nbsp;
+      <div className="formRow">
+      Don’t have an account? &nbsp;
+        {props.isMain ? (
+          <span
+            onClick={() => {
+              props.setOverlayWrapperForm(<SignupForm isMain={props.isMain} setOverlayWrapperForm={props.setOverlayWrapperForm} />);
+            }}
+            className="formChanger"
+          >
+            Sign Up
+          </span>
+        ) : (
           <Link to="/signup" className="formChanger">
             Sign Up
           </Link>
-        </div>
-      )}
+        )}
+      </div>
+
       <div
         className={
           props.isMain ? "formRow loginButtonStart" : "formRow loginButtonEnd"

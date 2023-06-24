@@ -10,7 +10,7 @@ import OverlayFormLayout from "../common/overlayFormLayouy/OverlayFormLayout";
 import LoginForm from "../common/loginForm/LoginForm";
 import SignupForm from "../common/SignupForm/SignupForm";
 import AddProductForm from "../addProductForm/AddProductForm";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Main() {
   const [isDesktop, setDesktop] = useState(window.innerWidth > 650);
@@ -25,6 +25,9 @@ export default function Main() {
   const [sortBy, setSortBy] = useState("upvotes");
   const [productCount, setProductCount] = useState(0);
   const [userData, setUserData] = useState(null);
+  const [overlayWrapperForm, setOverlayWrapperForm] = useState();
+
+  const overlayWrapperRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,9 +57,11 @@ export default function Main() {
         });
         all_filters = new Set([...filters, ...all_filters]);
         setFilters(all_filters);
-
         setProducts(res.data);
         setProductCount(res.data.length);
+
+        isLoggedIn ? setOverlayWrapperForm(<AddProductForm overlayWrapperRef={overlayWrapperRef}/>) : setOverlayWrapperForm(<SignupForm isDesktop={isDesktop} setOverlayWrapperForm={setOverlayWrapperForm} isMain={true}/>)
+
       } catch {
         console.log("Someting went wrong!");
       }
@@ -64,6 +69,8 @@ export default function Main() {
     fetchData();
     window.addEventListener("resize", updateMedia);
     return () => window.removeEventListener("resize", updateMedia);
+    
+
   }, []);
 
   return (
@@ -87,6 +94,7 @@ export default function Main() {
               isDesktop={isDesktop}
               sortBy={sortBy}
               setSortBy={setSortBy}
+              overlayWrapperRef={overlayWrapperRef}
               filterBy={filterBy}
             />
           )}
@@ -142,20 +150,23 @@ export default function Main() {
               sortBy={sortBy}
               setSortBy={setSortBy}
               filterBy={filterBy}
+              overlayWrapperRef={overlayWrapperRef}
             />
           )}
           <div className="productCardsWrapper">
             {products.map((product, i) => (
-              <ProductBlock key={i} product={product} isDesktop={isDesktop} />
+              <ProductBlock key={i} isLoggedIn={isLoggedIn} product={product} isDesktop={isDesktop} />
             ))}
           </div>
         </div>
       </div>
 
       <OverlayFormLayout
+        overlayWrapperRef={overlayWrapperRef}
         isDesktop={isDesktop}
-        formHeading={"Login to continue"}
-        form={<AddProductForm />}
+        formHeading={isLoggedIn ? "Add your product" : "Signup to continue"}
+        form={overlayWrapperForm}
+        
       />
     </>
   );

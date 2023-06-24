@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { useRef } from "react";
 
-export default function AddProductForm() {
+export default function AddProductForm(props) {
   const nameRef = useRef();
   const categoryRef = useRef();
   const logoRef = useRef();
@@ -12,7 +12,7 @@ export default function AddProductForm() {
   const descriptionRef = useRef();
 
   const createProduct = async () => {
-    const userData = JSON.parse(localStorage.getItem("data"));
+    let userData = JSON.parse(localStorage.getItem("data"));
     if (!userData) {
       userData = { jwtToken: false };
     }
@@ -32,8 +32,8 @@ export default function AddProductForm() {
           },
         }
       );
-      console.log(res.data);
       if (res.data.status === 201) {
+        props.overlayWrapperRef.current.style.display ="none";
       }
     } catch {
       console.log("error");

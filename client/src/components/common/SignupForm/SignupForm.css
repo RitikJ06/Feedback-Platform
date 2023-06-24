@@ -6,7 +6,7 @@
 .formRow{
     display: flex;
     width: 100%;
-    padding: 3%;
+    padding: 10px;
     box-sizing: border-box;
     margin: 5px 0px;
 }
@@ -51,4 +51,5 @@
     color: #36416A;
     text-decoration: underline;
     font-weight: 500;
+    cursor: pointer;
 }

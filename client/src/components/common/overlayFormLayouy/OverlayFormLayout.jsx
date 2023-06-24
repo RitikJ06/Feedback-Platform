@@ -1,12 +1,11 @@
 import React from "react";
 import "./OverlayFormLayout.css";
-import { useRef } from "react";
 
 export default function OverlayFormLayout(props) {
-  const overlayWrapperRef = useRef();
 
   return (
-    <div ref={overlayWrapperRef} className="overlayWrapper">
+    <div ref={props.overlayWrapperRef} className="overlayWrapper" onClick={(e) => {
+      e.target.className==="overlayWrapper" ? e.target.style.display ="none": e.target.style.display ="flex"}}>
       <div className="overlayInnerWrapper">
         <div style={!props.isDesktop ? {width: "100%"} : {}} className="formWrapper">
           <h2 className="formHeading">{props.formHeading}</h2>
