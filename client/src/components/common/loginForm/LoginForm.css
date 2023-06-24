@@ -8,9 +8,10 @@
     width: 100%;
     padding: 3%;
     box-sizing: border-box;
+    margin: 0px 5px;
 }
 .formInput{
-    width: 92%;
+    width: 90%;
     border: none;
     border-bottom: solid 1px #AAAAAA;
 }
@@ -20,21 +21,22 @@
 }
 .formIcon{
     box-sizing: border-box;
-    padding: 0px 15px 0px 0px;
-    width: 8%;
+    padding: 0px 20px 0px 0px;
+    width: 9%;
+}
+.formIcon img{
+    width: 20px;
 }
 .loginButton{
     background-color: #36416A;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
     border: none;
-    padding: 1.5% 5%;
+    padding: 2% 6%;
     border-radius: 20px;
     cursor: pointer;
 }
-.loginButtonRow{
-    justify-content: flex-end;
-}
+
 .errBlock{
     background-color: rgb(255, 74, 74);
     width: 100%;

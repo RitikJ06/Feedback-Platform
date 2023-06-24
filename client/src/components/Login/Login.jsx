@@ -1,17 +1,9 @@
 import React from 'react'
 import LoginRegisterPage from '../common/loginRegisterPageLayout/LoginRegisterPage'
 import LoginForm from '../common/loginForm/LoginForm'
-import SignupForm from '../common/SignupForm/SignupForm'
 
-import { useState, useEffect } from 'react'
-
-export default function Login() {
-  const [form, setForm] = useState()
-  useEffect(() => {
-    setForm(<LoginForm signupForm={<SignupForm/>} setForm={setForm}/>)
-  }, [])
-  
+export default function Login() {  
   return (
-    <LoginRegisterPage form={form}  />
+    <LoginRegisterPage form={<LoginForm isMain={false}/>}  />
   )
 }

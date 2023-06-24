@@ -8,6 +8,7 @@
     width: 100%;
     padding: 3%;
     box-sizing: border-box;
+    margin: 5px 0px;
 }
 .formInput{
     width: 92%;
@@ -21,14 +22,17 @@
 .formIcon{
     box-sizing: border-box;
     padding: 0px 15px 0px 0px;
-    width: 8%;
+    width: 9%;
+}
+.formInput img{
+    width: 20px;
 }
 .signupButton{
     background-color: #36416A;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
     border: none;
-    padding: 1.5% 5%;
+    padding: 2% 6%;
     border-radius: 20px;
     cursor: pointer;
 }

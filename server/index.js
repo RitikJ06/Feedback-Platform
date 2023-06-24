@@ -34,8 +34,8 @@ const isAuthenticated = (req, res, next) => {
   next();
 };
 
-app.get('/users', (req, res, next) => {
-  User.find().then((data) => res.json(data)).catch(() => res.json({error: "could not fetch data"}))
+app.get('/autheticate', isAuthenticated, (req, res, next) => {
+  res.json({ status: 200, message: "Token is valid" })
 })
 
 // api for user login

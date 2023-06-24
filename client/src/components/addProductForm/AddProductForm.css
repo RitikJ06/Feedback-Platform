@@ -1,0 +1,31 @@
+.addProductForm{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.productFormInput{
+    margin: 10px 0px;
+    width: 90%;
+    border: none;
+    border-bottom: solid 1px #AAAAAA;
+}
+.productFormInput::placeholder{
+    font-weight: 500;
+    color: #737373;
+}
+.productFormInput:focus{
+    border-bottom: solid 1px #AAAAAA;
+    outline: none;
+}
+.addProductFormButton{
+    background-color: #36416A;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 500;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 33%;
+    margin-top: 5%;
+}

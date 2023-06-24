@@ -5,7 +5,11 @@ import NavBar from "./navBar/NavBar";
 import HeroSection from "./heroSection/HeroSection";
 import StatusBar from "./statusBar/StatusBar";
 import ProductBlock from "./productBlock/ProductBlock";
+import OverlayFormLayout from "../common/overlayFormLayouy/OverlayFormLayout";
 
+import LoginForm from "../common/loginForm/LoginForm";
+import SignupForm from "../common/SignupForm/SignupForm";
+import AddProductForm from "../addProductForm/AddProductForm";
 import { useState, useEffect } from "react";
 
 export default function Main() {
@@ -14,16 +18,33 @@ export default function Main() {
     setDesktop(window.innerWidth > 650);
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [filters, setFilters] = useState(new Set(["All"]));
   const [filterBy, setFilterBy] = useState("All");
   const [products, setProducts] = useState([]);
   const [sortBy, setSortBy] = useState("upvotes");
-
   const [productCount, setProductCount] = useState(0);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        let storedData = JSON.parse(localStorage.getItem("data"));
+        if (storedData) {
+          const response = await axios.get(
+            "http://localhost:8000/autheticate",
+            {
+              headers: {
+                token: storedData.jwtToken,
+              },
+            }
+          );
+          if (response.data.status === 200) {
+            setIsLoggedIn(true);
+            setUserData(storedData);
+          }
+        }
+
         const res = await axios.get("http://localhost:8000/api/products");
         let all_filters = new Set();
         res.data.map((item) => {
@@ -47,7 +68,7 @@ export default function Main() {
 
   return (
     <>
-      <NavBar />
+      <NavBar userData={userData} isLoggedIn={isLoggedIn}/>
       <HeroSection />
 
       <div className="productSectionWrapper">
@@ -88,7 +109,12 @@ export default function Main() {
                       const getFilteredProdcts = async () => {
                         let res = await axios.get(
                           "http://localhost:8000/api/products",
-                          { params: { filterByCategory: filter, sortBy:sortBy} }
+                          {
+                            params: {
+                              filterByCategory: filter,
+                              sortBy: sortBy,
+                            },
+                          }
                         );
                         setProducts(res.data);
                         setFilterBy(filter);
@@ -125,6 +151,12 @@ export default function Main() {
           </div>
         </div>
       </div>
+
+      <OverlayFormLayout
+        isDesktop={isDesktop}
+        formHeading={"Login to continue"}
+        form={<AddProductForm />}
+      />
     </>
   );
 }
