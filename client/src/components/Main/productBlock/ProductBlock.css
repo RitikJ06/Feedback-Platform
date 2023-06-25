@@ -130,7 +130,12 @@
     overflow-x: hidden !important;
     margin-top: 10px;
 }
-
+.commentCounter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 li{
     margin: 10px 0px;
 }
