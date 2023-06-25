@@ -57,7 +57,6 @@ export default function Main() {
     isLoggedIn
       ? setFormHeading("Add your product")
       : setFormHeading("Signup to continue");
-    console.log("executed!!!");
   }, [isLoggedIn, editingProduct]);
 
   useEffect(() => {
@@ -66,7 +65,7 @@ export default function Main() {
         let storedData = JSON.parse(localStorage.getItem("data"));
         if (storedData) {
           const response = await axios.get(
-            "http://localhost:8000/autheticate",
+            process.env.REACT_APP_BASE_URL + "/autheticate",
             {
               headers: {
                 token: storedData.jwtToken,
@@ -80,10 +79,10 @@ export default function Main() {
         }
 
         // make api call to get all products to create filters list
-        const resAll = await axios.get("http://localhost:8000/api/products");
+        const resAll = await axios.get(process.env.REACT_APP_BASE_URL + "/api/products");
 
         // make api call to get products with filter and sorting
-        const res = await axios.get("http://localhost:8000/api/products", {
+        const res = await axios.get(process.env.REACT_APP_BASE_URL + "/api/products", {
           params: {
             filterByCategory: filterBy === "All" ? null : filterBy,
             sortBy: sortBy,

@@ -21,7 +21,9 @@ export default function ProductBlock(props) {
   const updateUpvotes = async () => {
     try {
       const res = await axios.patch(
-        "http://localhost:8000/api/product/upvote/" + props.product._id
+        process.env.REACT_APP_BASE_URL +
+          "/api/product/upvote/" +
+          props.product._id
       );
       console.log(res.data, typeof res.data.status);
       if (res.data.status === 200 || res.data.status === 200) {
@@ -39,7 +41,9 @@ export default function ProductBlock(props) {
         return;
       }
       const res = await axios.patch(
-        "http://localhost:8000/api/product/comment/" + props.product._id,
+        process.env.REACT_APP_BASE_URL +
+          "/api/product/comment/" +
+          props.product._id,
         { comment: commentRef.current.value }
       );
       if (res.data.status === 200) {
@@ -52,14 +56,22 @@ export default function ProductBlock(props) {
   };
 
   const editProduct = () => {
-    props.setEditingProduct(props.product)
+    props.setEditingProduct(props.product);
     props.overlayWrapperRef.current.style.display = "flex";
   };
 
   return (
-    <div className={props.isDesktop ? "productCard" : "productCard productCardRes"}>
+    <div
+      className={props.isDesktop ? "productCard" : "productCard productCardRes"}
+    >
       <div className="cardDetailSection">
-        <div className={props.isDesktop ? "logoImageWrapper" : "logoImageWrapper logoImageWrapperRes"}>
+        <div
+          className={
+            props.isDesktop
+              ? "logoImageWrapper"
+              : "logoImageWrapper logoImageWrapperRes"
+          }
+        >
           <img
             className="productLogo"
             alt="product logo"
@@ -82,7 +94,13 @@ export default function ProductBlock(props) {
             </div>
           </div>
           <div className="cardDetailsBottomSection">
-            <div className={props.isDesktop ? "cardDetailsBottomLeftSection" : "cardDetailsBottomLeftSection cardDetailsBottomLeftSectionRes"}>
+            <div
+              className={
+                props.isDesktop
+                  ? "cardDetailsBottomLeftSection"
+                  : "cardDetailsBottomLeftSection cardDetailsBottomLeftSectionRes"
+              }
+            >
               <div className="categoryWrapper">
                 {props.product.category.map((item) => (
                   <span key={item} className="categoryItem">
@@ -105,7 +123,11 @@ export default function ProductBlock(props) {
             </div>
 
             <div className="cardDetailsBottomRightSection">
-              {props.isLoggedIn && <button className="editButton" onClick={()=>editProduct()}>Edit</button>}
+              {props.isLoggedIn && (
+                <button className="editButton" onClick={() => editProduct()}>
+                  Edit
+                </button>
+              )}
               <div className="commentCounter">
                 {comments.length} &nbsp;
                 <img src={commentCountIcon} alt="comment count icon" />

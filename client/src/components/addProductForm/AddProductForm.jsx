@@ -6,11 +6,22 @@ import { useRef, useEffect } from "react";
 
 export default function AddProductForm(props) {
   useEffect(() => {
-    nameRef.current.value = props.editingProduct.name ? props.editingProduct.name : "";
-    categoryRef.current.value = props.editingProduct.category ? props.editingProduct.category : "";
-    logoRef.current.value = props.editingProduct.logo ? props.editingProduct.logo : "";
-    linkRef.current.value = props.editingProduct.link ? props.editingProduct.link : "";
-    descriptionRef.current.value = props.editingProduct.description ? props.editingProduct.description : "";
+    // set forms input fields as per the product
+    nameRef.current.value = props.editingProduct.name
+      ? props.editingProduct.name
+      : "";
+    categoryRef.current.value = props.editingProduct.category
+      ? props.editingProduct.category
+      : "";
+    logoRef.current.value = props.editingProduct.logo
+      ? props.editingProduct.logo
+      : "";
+    linkRef.current.value = props.editingProduct.link
+      ? props.editingProduct.link
+      : "";
+    descriptionRef.current.value = props.editingProduct.description
+      ? props.editingProduct.description
+      : "";
   }, [props.editingProduct]);
 
   const nameRef = useRef();
@@ -28,7 +39,9 @@ export default function AddProductForm(props) {
       let res;
       if (props.editingProduct.name) {
         res = await axios.put(
-          "http://localhost:8000/api/products/" + props.editingProduct._id,
+          process.env.REACT_APP_BASE_URL +
+            "/api/products/" +
+            props.editingProduct._id,
           {
             name: nameRef.current.value,
             category: categoryRef.current.value,
@@ -44,7 +57,7 @@ export default function AddProductForm(props) {
         );
       } else {
         res = await axios.post(
-          "http://localhost:8000/api/products/",
+          process.env.REACT_APP_BASE_URL + "/api/products/",
           {
             name: nameRef.current.value,
             category: categoryRef.current.value,
