@@ -76,8 +76,6 @@ export default function AddProductForm(props) {
         props.setProductAdded((value) => value + 1);
         props.overlayWrapperRef.current.style.display = "none";
       }
-
-      console.log(categoryRef.current.value);
     } catch {
       console.log("error");
     }
@@ -126,7 +124,7 @@ export default function AddProductForm(props) {
       />
       <button
         onClick={() => createOrEditProduct()}
-        className="addProductFormButton"
+        className={props.isDesktop ? "addProductFormButton" : "addProductFormButton addProductFormButtonRes"}
       >
         +Add
       </button>

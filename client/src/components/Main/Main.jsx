@@ -39,6 +39,7 @@ export default function Main() {
     isLoggedIn
       ? setOverlayWrapperForm(
           <AddProductForm
+            isDesktop={isDesktop}
             setProductAdded={setProductAdded}
             userData={userData}
             editingProduct={editingProduct}

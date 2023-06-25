@@ -2,6 +2,7 @@
     display: flex;
     width: 100%;
     flex-direction: column;
+    align-items: center;
 }
 .productFormInput{
     margin: 10px 0px;
@@ -29,4 +30,9 @@
     cursor: pointer;
     width: 33%;
     margin-top: 5%;
+}
+.addProductFormButtonRes{
+    display: flex;
+    justify-content: center;
+    width: 80%;
 }
