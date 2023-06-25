@@ -52,7 +52,7 @@
     margin: 5px 0px;
 }
 .cardDetailsBottomLeftSection{
-    width: 60%;
+    width: 58%;
 }
 .categoryWrapper{
     display: flex;
@@ -152,4 +152,14 @@ border: 3px solid #C7CBD6;
     border: none;
     border-radius: 29px;
     margin-right: 10px;
+}
+.productCardRes{
+    padding: 3%;
+}
+.logoImageWrapperRes{
+    width: 15%;
+    padding-right: 2%;
+}
+.logoImageWrapperRes img {
+    width: 100%;
 }

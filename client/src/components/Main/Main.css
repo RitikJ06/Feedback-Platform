@@ -30,7 +30,7 @@
     padding: 3% 5%;
     box-sizing: border-box;
     flex-wrap: wrap;
-    margin: 7% 0px;
+    margin-top: 5%;
     border-radius: 11px;
 }
 .filterButton{
@@ -39,7 +39,7 @@
     padding: 8px 20px;
     background: #36416A26;
     border-radius: 25px;
-    margin: 5px;
+    margin: 5px 5px 5px 0px;
     cursor: pointer;
 }
 .selectedFilter{
@@ -66,8 +66,17 @@
     width: 100%;
 }
 .filterButtonsWrapperRes{
-    width: 95%;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+
 }
 .productSectionRes{
     width: 100%;
+}
+.filterTextMob{
+    display: block;
+    width: 100%;
+    color: #8B8B8B;
+    margin-bottom: 5px;
 }

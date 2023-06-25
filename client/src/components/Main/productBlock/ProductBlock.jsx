@@ -57,9 +57,9 @@ export default function ProductBlock(props) {
   };
 
   return (
-    <div className="productCard">
+    <div className={props.isDesktop ? "productCard" : "productCard productCardRes"}>
       <div className="cardDetailSection">
-        <div className="logoImageWrapper">
+        <div className={props.isDesktop ? "logoImageWrapper" : "logoImageWrapper logoImageWrapperRes"}>
           <img
             className="productLogo"
             alt="product logo"

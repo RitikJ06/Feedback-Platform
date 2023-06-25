@@ -35,7 +35,6 @@ export default function Main() {
     return () => window.removeEventListener("resize", updateMedia);
   }, []);
 
-
   useEffect(() => {
     isLoggedIn
       ? setOverlayWrapperForm(
@@ -79,14 +78,20 @@ export default function Main() {
             setUserData(storedData);
           }
         }
+
+        // make api call to get all products to create filters list
+        const resAll = await axios.get("http://localhost:8000/api/products");
+
+        // make api call to get products with filter and sorting
         const res = await axios.get("http://localhost:8000/api/products", {
           params: {
             filterByCategory: filterBy === "All" ? null : filterBy,
             sortBy: sortBy,
           },
         });
+
         let all_filters = new Set();
-        res.data.map((item) => {
+        resAll.data.map((item) => {
           item.category.map((cate) => {
             all_filters = all_filters.add(cate);
           });
@@ -144,6 +149,7 @@ export default function Main() {
                 : "filterButtonsWrapper filterButtonsWrapperRes"
             }
           >
+            {!isDesktop && <div className="filterTextMob">Filters:</div>}
             {[...filters].map((filter) => {
               return (
                 <span
