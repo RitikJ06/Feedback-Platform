@@ -22,7 +22,7 @@ export default function SignupForm(props) {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      let res = await axios.post("http://localhost:8000/register", {
+      let res = await axios.post(process.env.REACT_APP_BASE_URL + "/register", {
         name: nameRef.current.value,
         email: emailRef.current.value,
         mobile: mobileRef.current.value,

@@ -18,7 +18,7 @@ export default function LoginForm(props) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      let res = await axios.post("http://localhost:8000/login", {
+      let res = await axios.post(process.env.REACT_APP_BASE_URL + "/login", {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });

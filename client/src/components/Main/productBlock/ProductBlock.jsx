@@ -25,7 +25,6 @@ export default function ProductBlock(props) {
           "/api/product/upvote/" +
           props.product._id
       );
-      console.log(res.data, typeof res.data.status);
       if (res.data.status === 200 || res.data.status === 200) {
         setUpvoteCount((count) => count + 1);
         upvotesRef.current.value += 1;
