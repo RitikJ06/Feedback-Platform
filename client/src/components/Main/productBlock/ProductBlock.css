@@ -65,6 +65,10 @@
     border-radius: 27px;
     margin: 5px 15px 0px 0px;
 }
+.categoryItemRes{
+    padding: 5px 8px;
+    margin: 5px 5px 0px 0px;
+}
 .commentWrapper{
     cursor: pointer;
 }

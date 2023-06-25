@@ -102,7 +102,14 @@ export default function ProductBlock(props) {
             >
               <div className="categoryWrapper">
                 {props.product.category.map((item) => (
-                  <span key={item} className="categoryItem">
+                  <span
+                    key={item}
+                    className={
+                      props.isDesktop
+                        ? "categoryItem"
+                        : "categoryItem categoryItemRes"
+                    }
+                  >
                     {item}
                   </span>
                 ))}
@@ -128,7 +135,7 @@ export default function ProductBlock(props) {
                 </button>
               )}
               <div className="commentCounter">
-                {comments.length} &nbsp;
+                <span>{comments.length}</span> &nbsp;
                 <img src={commentCountIcon} alt="comment count icon" />
               </div>
             </div>
