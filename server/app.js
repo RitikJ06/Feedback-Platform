@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 app.use(express.static("./public"));
 
 app.get("/health", (req, res) => {
-  res.send("Everything is working fine!");
+  res.json({status: 200, message:"Everything is working fine!"});
 });
 
 // authenticate user
