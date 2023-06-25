@@ -1,9 +1,9 @@
 .productCard{
-    width: 95%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     background: #36416A26;
-    margin: 20px 0px;
+    margin: 10px 0px;
     padding: 1% 2%;
     box-sizing: border-box;
     border-radius: 4px;
@@ -51,7 +51,7 @@
     width: 50%;
     margin: 5px 0px;
 }
-.cardDetailsBottomLeftSectionRes{
+.cardDetailsBottomLeftSection{
     width: 60%;
 }
 .categoryWrapper{

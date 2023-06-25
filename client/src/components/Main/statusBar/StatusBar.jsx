@@ -1,9 +1,7 @@
 import React from "react";
-import axios from "axios";
 import "./StatusBar.css";
 
 export default function StatusBar(props) {
-
   return (
     <div className="statusBarWrapper">
       <span className="suggestionsCount">{props.productCount} Suggestions</span>
@@ -21,8 +19,8 @@ export default function StatusBar(props) {
       </div>
       <button
         onClick={() => {
+          props.setEditingProduct({});
           props.overlayWrapperRef.current.style.display = "flex";
-          props.setEditingProduct({})
         }}
         className="addProductButton"
       >

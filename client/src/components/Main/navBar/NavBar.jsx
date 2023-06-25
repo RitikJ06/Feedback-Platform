@@ -7,7 +7,7 @@ export default function NavBar(props) {
 
   return (
     <div className='headerBlock'>
-      <h2>Feedback</h2>
+      <Link to="/"><h2>Feedback</h2></Link>
       <div className='navItemsWrapper'>
         { !props.isLoggedIn ? 
             <>

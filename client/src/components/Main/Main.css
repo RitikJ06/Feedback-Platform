@@ -52,10 +52,16 @@
 .productCardsWrapper{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 95%;
     align-items: center;
+    margin-top: 20px;
 }
-
+.productCardsWrapperRes{
+    width: 100%;
+}
+.productCardsWrapperRes .productCard{
+    width: 95%;
+}
 .filterWrapperRes{
     width: 100%;
 }

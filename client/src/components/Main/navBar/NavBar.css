@@ -56,3 +56,7 @@
 .userImageRes{
     width: 14%;
 }
+.headerBlock > a{
+    color: white;
+    text-decoration: none;
+}

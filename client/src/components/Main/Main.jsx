@@ -26,7 +26,8 @@ export default function Main() {
   const [userData, setUserData] = useState(null);
   const [formHeading, setFormHeading] = useState();
   const [overlayWrapperForm, setOverlayWrapperForm] = useState();
-  const [editingProduct, setEditingProduct] = useState("");
+  const [editingProduct, setEditingProduct] = useState({});
+  const [productAdded, setProductAdded] = useState(0);
 
   const overlayWrapperRef = useRef();
   useEffect(() => {
@@ -34,10 +35,12 @@ export default function Main() {
     return () => window.removeEventListener("resize", updateMedia);
   }, []);
 
+
   useEffect(() => {
     isLoggedIn
       ? setOverlayWrapperForm(
           <AddProductForm
+            setProductAdded={setProductAdded}
             userData={userData}
             editingProduct={editingProduct}
             overlayWrapperRef={overlayWrapperRef}
@@ -55,6 +58,7 @@ export default function Main() {
     isLoggedIn
       ? setFormHeading("Add your product")
       : setFormHeading("Signup to continue");
+    console.log("executed!!!");
   }, [isLoggedIn, editingProduct]);
 
   useEffect(() => {
@@ -87,7 +91,7 @@ export default function Main() {
             all_filters = all_filters.add(cate);
           });
         });
-        all_filters = new Set([...filters, ...all_filters]);
+        all_filters = new Set(["All", ...all_filters]);
         setFilters(all_filters);
         setProducts(res.data);
         setProductCount(res.data.length);
@@ -96,8 +100,7 @@ export default function Main() {
       }
     };
     fetchData();
-    console.log("this is is executed ");
-  }, [sortBy, filterBy]);
+  }, [sortBy, filterBy, productAdded]);
 
   return (
     <>
@@ -177,7 +180,13 @@ export default function Main() {
               setEditingProduct={setEditingProduct}
             />
           )}
-          <div className="productCardsWrapper">
+          <div
+            className={
+              isDesktop
+                ? "productCardsWrapper"
+                : "productCardsWrapper productCardsWrapperRes"
+            }
+          >
             {products.map((currentProduct, i) => (
               <ProductBlock
                 key={i}
