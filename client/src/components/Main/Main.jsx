@@ -18,22 +18,44 @@ export default function Main() {
   };
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [filters, setFilters] = useState(new Set(["All"]));
   const [filterBy, setFilterBy] = useState("All");
   const [products, setProducts] = useState([]);
   const [sortBy, setSortBy] = useState("upvotes");
   const [productCount, setProductCount] = useState(0);
   const [userData, setUserData] = useState(null);
+  const [formHeading, setFormHeading] = useState();
   const [overlayWrapperForm, setOverlayWrapperForm] = useState();
-  const [product, setProduct] = useState();
+  const [editingProduct, setEditingProduct] = useState("");
 
   const overlayWrapperRef = useRef();
   useEffect(() => {
-    isLoggedIn ? setOverlayWrapperForm(<AddProductForm isEditing={isEditing} product={product} overlayWrapperRef={overlayWrapperRef}/>) : setOverlayWrapperForm(<SignupForm isDesktop={isDesktop} setOverlayWrapperForm={setOverlayWrapperForm} isMain={true} userData={userData}/>)
-  
-  }, [isLoggedIn])
-  
+    window.addEventListener("resize", updateMedia);
+    return () => window.removeEventListener("resize", updateMedia);
+  }, []);
+
+  useEffect(() => {
+    isLoggedIn
+      ? setOverlayWrapperForm(
+          <AddProductForm
+            userData={userData}
+            editingProduct={editingProduct}
+            overlayWrapperRef={overlayWrapperRef}
+          />
+        )
+      : setOverlayWrapperForm(
+          <SignupForm
+            isDesktop={isDesktop}
+            setOverlayWrapperForm={setOverlayWrapperForm}
+            isMain={true}
+            userData={userData}
+            setFormHeading={setFormHeading}
+          />
+        );
+    isLoggedIn
+      ? setFormHeading("Add your product")
+      : setFormHeading("Signup to continue");
+  }, [isLoggedIn, editingProduct]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,8 +75,12 @@ export default function Main() {
             setUserData(storedData);
           }
         }
-
-        const res = await axios.get("http://localhost:8000/api/products");
+        const res = await axios.get("http://localhost:8000/api/products", {
+          params: {
+            filterByCategory: filterBy === "All" ? null : filterBy,
+            sortBy: sortBy,
+          },
+        });
         let all_filters = new Set();
         res.data.map((item) => {
           item.category.map((cate) => {
@@ -65,25 +91,29 @@ export default function Main() {
         setFilters(all_filters);
         setProducts(res.data);
         setProductCount(res.data.length);
-
       } catch {
         console.log("Someting went wrong!");
       }
     };
     fetchData();
-    window.addEventListener("resize", updateMedia);
-    return () => window.removeEventListener("resize", updateMedia);
-    
-
-  }, []);
+    console.log("this is is executed ");
+  }, [sortBy, filterBy]);
 
   return (
     <>
-      <NavBar userData={userData} isLoggedIn={isLoggedIn}/>
-      <HeroSection />
+      <NavBar
+        isDesktop={isDesktop}
+        userData={userData}
+        isLoggedIn={isLoggedIn}
+      />
+      <HeroSection isDesktop={isDesktop} />
 
       <div className="productSectionWrapper">
-        <div className="filterWrapper">
+        <div
+          className={
+            isDesktop ? "filterWrapper" : "filterWrapper filterWrapperRes"
+          }
+        >
           {isDesktop && (
             <div className="filterHeading">
               <h1>Feedback</h1>
@@ -100,10 +130,17 @@ export default function Main() {
               setSortBy={setSortBy}
               overlayWrapperRef={overlayWrapperRef}
               filterBy={filterBy}
+              setEditingProduct={setEditingProduct}
             />
           )}
 
-          <div className="filterButtonsWrapper">
+          <div
+            className={
+              isDesktop
+                ? "filterButtonsWrapper"
+                : "filterButtonsWrapper filterButtonsWrapperRes"
+            }
+          >
             {[...filters].map((filter) => {
               return (
                 <span
@@ -113,29 +150,7 @@ export default function Main() {
                       ? "filterButton selectedFilter"
                       : "filterButton"
                   }
-                  onClick={() => {
-                    try {
-                      if (filter === "All") {
-                        filter = null;
-                      }
-                      const getFilteredProdcts = async () => {
-                        let res = await axios.get(
-                          "http://localhost:8000/api/products",
-                          {
-                            params: {
-                              filterByCategory: filter,
-                              sortBy: sortBy,
-                            },
-                          }
-                        );
-                        setProducts(res.data);
-                        setFilterBy(filter);
-                      };
-                      getFilteredProdcts();
-                    } catch {
-                      console.log("Error fetching data");
-                    }
-                  }}
+                  onClick={() => setFilterBy(filter)}
                 >
                   {filter}
                 </span>
@@ -144,7 +159,11 @@ export default function Main() {
           </div>
         </div>
 
-        <div className="productSection">
+        <div
+          className={
+            isDesktop ? "productSection" : "productSection productSectionRes"
+          }
+        >
           {isDesktop && (
             <StatusBar
               productCount={productCount}
@@ -155,11 +174,19 @@ export default function Main() {
               setSortBy={setSortBy}
               filterBy={filterBy}
               overlayWrapperRef={overlayWrapperRef}
+              setEditingProduct={setEditingProduct}
             />
           )}
           <div className="productCardsWrapper">
             {products.map((currentProduct, i) => (
-              <ProductBlock key={i} isLoggedIn={isLoggedIn} product={currentProduct} isDesktop={isDesktop} overlayWrapperRef={overlayWrapperRef} setIsEditing={setIsEditing} setProduct={setProduct} parentProduct={[product]} />
+              <ProductBlock
+                key={i}
+                isLoggedIn={isLoggedIn}
+                product={currentProduct}
+                isDesktop={isDesktop}
+                overlayWrapperRef={overlayWrapperRef}
+                setEditingProduct={setEditingProduct}
+              />
             ))}
           </div>
         </div>
@@ -168,9 +195,8 @@ export default function Main() {
       <OverlayFormLayout
         overlayWrapperRef={overlayWrapperRef}
         isDesktop={isDesktop}
-        formHeading={isLoggedIn ? "Add your product" : "Signup to continue"}
+        formHeading={formHeading}
         form={overlayWrapperForm}
-        
       />
     </>
   );

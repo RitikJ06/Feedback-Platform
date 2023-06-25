@@ -28,9 +28,9 @@
 .navLoginButton{
     background: rgba(0, 0, 0, 0);
     color: white;
-    padding: 7% 15%;
+    padding: 10px 12%;
     border: none;
-    margin: 0px 5%;
+    margin: 6% 5%;
     cursor: pointer;
     font-weight: 500;
     text-wrap: nowrap;
@@ -39,8 +39,8 @@
 .navSignupButton{
     background: #36416A;
     color: white;
-    padding: 7% 15%;
-    border: solid 2px white;
+    padding: 7% 12%;
+    border: solid 1px white;
     border-radius: 7px;
     margin: 0px 5%;
     cursor: pointer;
@@ -52,4 +52,7 @@
     width: 6%;
     margin: 0px 2%;
     border-radius: 50px;
+}
+.userImageRes{
+    width: 14%;
 }

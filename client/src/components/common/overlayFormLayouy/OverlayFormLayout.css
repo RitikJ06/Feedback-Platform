@@ -42,3 +42,14 @@
     line-height: 1.8rem;
     font-size: 1.3rem;
 }
+.overlayInnerWrapperRes{
+    width: 85%;
+    height: auto;
+    box-shadow: 0px 4.345678806304932px 39.11111068725586px 0px #00000040;
+}
+.formWrapperRes{
+    border-radius: 11px;
+}
+.formWrapperRes button{
+    width: 100%;
+}

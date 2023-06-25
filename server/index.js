@@ -191,7 +191,7 @@ app.put("/api/products/:id", isAuthenticated, async (req, res, next) => {
 
     await Product.findByIdAndUpdate(id, {
       name,
-      category,
+      category : category.split(",").map((s) => s.trim()),
       logo,
       link,
       description

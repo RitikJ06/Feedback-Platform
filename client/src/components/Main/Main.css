@@ -1,5 +1,6 @@
 .productSectionWrapper{
     display: flex;
+    flex-wrap: wrap;
     margin-top: 5%;
     box-sizing: border-box;
     justify-content: space-between;
@@ -45,8 +46,22 @@
     background: #36416A;
     color: white;
 }
-
 .productSection{
     width: 70%;
+}
+.productCardsWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
 
+.filterWrapperRes{
+    width: 100%;
+}
+.filterButtonsWrapperRes{
+    width: 95%;
+}
+.productSectionRes{
+    width: 100%;
 }

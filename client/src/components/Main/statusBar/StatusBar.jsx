@@ -3,20 +3,6 @@ import axios from "axios";
 import "./StatusBar.css";
 
 export default function StatusBar(props) {
-  const getSortedProducts = async (e) => {
-    try {
-      const res = await axios.get("http://localhost:8000/api/products", {
-        params: {
-          filterByCategory: props.filterBy === "All" ? null : props.filterBy,
-          sortBy: e.target.value,
-        },
-      });
-      props.setProducts(res.data);
-    } catch {
-      console.log("something went wrong!");
-    }
-    props.setSortBy(e.target.value);
-  };
 
   return (
     <div className="statusBarWrapper">
@@ -25,7 +11,7 @@ export default function StatusBar(props) {
         {props.isDesktop && <span className="sortBy">Sort by:</span>}
         <select
           onChange={(e) => {
-            getSortedProducts(e);
+            props.setSortBy(e.target.value);
           }}
           className="sortSelector"
         >
@@ -36,6 +22,7 @@ export default function StatusBar(props) {
       <button
         onClick={() => {
           props.overlayWrapperRef.current.style.display = "flex";
+          props.setEditingProduct({})
         }}
         className="addProductButton"
       >

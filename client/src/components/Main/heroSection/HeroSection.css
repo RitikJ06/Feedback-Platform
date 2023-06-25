@@ -1,6 +1,7 @@
 .heroSectionWrapper{
     display: flex;
-    height: 55%;
+    flex-wrap: wrap;
+    height: 60%;
 }
 .heroImageWrapper{
     display: flex;
@@ -25,4 +26,32 @@
 }
 .heroTextWrapper p{
     line-height: 1.8rem;
+}
+
+
+.heroSectionWrapperRes{
+    height: auto;
+}
+.heroImageWrapperRes{
+    width: 100%;
+    padding-top: 5%;
+}
+.heroImageRes{
+    height: 100%;
+    width: 75%;
+}
+.heroTextWrapperRes{
+    width: 100%;
+}
+.heroTextWrapperRes{
+    width: 100%;
+    padding: 5%;
+}
+.heroTextWrapperRes h1{
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.7rem;
+}
+.heroTextWrapperRes p{
+    line-height: 1.3rem;
 }

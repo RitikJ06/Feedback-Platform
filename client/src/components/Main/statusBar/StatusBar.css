@@ -30,9 +30,9 @@
 .addProductButton{
     background: #36416A;
     color: white;
-    font-weight: 600;
-    padding: 1% 2%;
+    font-weight: 500;
+    padding: 10px 4%;
     border: none;
-    border-radius: 7px;
+    border-radius: 4px;
     box-sizing: border-box;
 }

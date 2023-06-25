@@ -17,8 +17,8 @@ export default function NavBar(props) {
           :
             <>
               <Link to='/login' className='logoutButton' onClick={() => {localStorage.removeItem('data');}}>Logout</Link>
-              <span className='userName'>Hello {props.userData.name}</span>
-              <img className='userImage' src={userImg} alt='use icon' />
+              <span className='userName'>{props.isDesktop ? "Hello" + props.userData.name : ""}</span>
+              <img className={props.isDesktop ? 'userImage' : 'userImage userImageRes'} src={userImg} alt='use icon' />
             </>
         }
       </div>

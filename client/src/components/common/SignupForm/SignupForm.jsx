@@ -34,7 +34,7 @@ export default function SignupForm(props) {
           "data",
           JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
         );
-        navigate("/");
+        props.isMain ? navigate(0): navigate("/");
       } else if (res.data.status === 403) {
         errRef.current.innerHTML =
           "User already exist with this email. Please login!";
@@ -109,7 +109,8 @@ export default function SignupForm(props) {
         {props.isMain ? (
           <span
             onClick={() => {
-              props.setOverlayWrapperForm(<LoginForm isMain={props.isMain} setOverlayWrapperForm={props.setOverlayWrapperForm} />);
+              props.setOverlayWrapperForm(<LoginForm setFormHeading={props.setFormHeading} isMain={props.isMain} setOverlayWrapperForm={props.setOverlayWrapperForm} />);
+              props.setFormHeading("Log in to continue")
             }}
             className="formChanger"
           >

@@ -47,8 +47,12 @@
 .cardDetailsBottomLeftSection{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 50%;
     margin: 5px 0px;
+}
+.cardDetailsBottomLeftSectionRes{
+    width: 60%;
 }
 .categoryWrapper{
     display: flex;

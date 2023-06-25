@@ -51,5 +51,6 @@
     color: #36416A;
     text-decoration: underline;
     font-weight: 500;
+    text-wrap: nowrap;
     cursor: pointer;
 }

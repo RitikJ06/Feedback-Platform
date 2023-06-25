@@ -24,7 +24,7 @@ export default function ProductBlock(props) {
         "http://localhost:8000/api/product/upvote/" + props.product._id
       );
       console.log(res.data, typeof res.data.status);
-      if (res.data.status === 200) {
+      if (res.data.status === 200 || res.data.status === 200) {
         setUpvoteCount((count) => count + 1);
         upvotesRef.current.value += 1;
       }
@@ -52,8 +52,7 @@ export default function ProductBlock(props) {
   };
 
   const editProduct = () => {
-    props.setIsEditing(true)
-    props.setProduct([props.product])
+    props.setEditingProduct(props.product)
     props.overlayWrapperRef.current.style.display = "flex";
   };
 
@@ -83,7 +82,7 @@ export default function ProductBlock(props) {
             </div>
           </div>
           <div className="cardDetailsBottomSection">
-            <div className="cardDetailsBottomLeftSection">
+            <div className={props.isDesktop ? "cardDetailsBottomLeftSection" : "cardDetailsBottomLeftSection cardDetailsBottomLeftSectionRes"}>
               <div className="categoryWrapper">
                 {props.product.category.map((item) => (
                   <span key={item} className="categoryItem">

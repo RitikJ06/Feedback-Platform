@@ -28,7 +28,7 @@ export default function LoginForm(props) {
           "data",
           JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
         );
-        navigate("/");
+        props.isMain ? navigate(0): navigate("/");
       } else if (res.data.status === 401) {
         errRef.current.innerHTML = "Invalid credential, Please Try again!";
         errRef.current.style.display = "block";
@@ -76,7 +76,8 @@ export default function LoginForm(props) {
         {props.isMain ? (
           <span
             onClick={() => {
-              props.setOverlayWrapperForm(<SignupForm isMain={props.isMain} setOverlayWrapperForm={props.setOverlayWrapperForm} />);
+              props.setOverlayWrapperForm(<SignupForm setFormHeading={props.setFormHeading} isMain={props.isMain} setOverlayWrapperForm={props.setOverlayWrapperForm} />);
+              props.setFormHeading('Signup to continue')
             }}
             className="formChanger"
           >

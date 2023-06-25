@@ -2,7 +2,7 @@ import React from "react";
 import "./AddProductForm.css";
 import axios from "axios";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 
 export default function AddProductForm(props) {
   const nameRef = useRef();
@@ -11,39 +11,48 @@ export default function AddProductForm(props) {
   const linkRef = useRef();
   const descriptionRef = useRef();
 
-  useEffect(() => {
-    if(props.isEditing){
-      nameRef.current.value= props.product.name
-
-    }
-    console.log("editing!", props.isEditing)
-
-  }, [props.isEditing])
-  
-
-  const createProduct = async () => {
+  const createOrEditProduct = async () => {
     let userData = props.userData;
     if (!userData) {
       userData = { jwtToken: false };
     }
     try {
-      let res = await axios.post(
-        "http://localhost:8000/api/products/",
-        {
-          name: nameRef.current.value,
-          category: categoryRef.current.value,
-          logo: logoRef.current.value,
-          link: linkRef.current.value,
-          description: descriptionRef.current.value,
-        },
-        {
-          headers: {
-            token: userData.jwtToken,
+      let res;
+      if (props.editingProduct) {
+        res = await axios.put(
+          "http://localhost:8000/api/products/" + props.editingProduct._id,
+          {
+            name: nameRef.current.value,
+            category: categoryRef.current.value,
+            logo: logoRef.current.value,
+            link: linkRef.current.value,
+            description: descriptionRef.current.value,
           },
-        }
-      );
-      if (res.data.status === 201) {
-        props.overlayWrapperRef.current.style.display ="none";
+          {
+            headers: {
+              token: userData.jwtToken,
+            },
+          }
+        );
+      } else {
+        res = await axios.post(
+          "http://localhost:8000/api/products/",
+          {
+            name: nameRef.current.value,
+            category: categoryRef.current.value,
+            logo: logoRef.current.value,
+            link: linkRef.current.value,
+            description: descriptionRef.current.value,
+          },
+          {
+            headers: {
+              token: userData.jwtToken,
+            },
+          }
+        );
+      }
+      if (res.data.status === 201 || res.data.status === 200) {
+        props.overlayWrapperRef.current.style.display = "none";
       }
     } catch {
       console.log("error");
@@ -57,7 +66,7 @@ export default function AddProductForm(props) {
         type="text"
         placeholder="Name of the company"
         name="name"
-        defaultValue={props.product ? props.product[0] : "test"}
+        defaultValue={props.editingProduct.name}
         required
       />
       <input
@@ -66,6 +75,7 @@ export default function AddProductForm(props) {
         type="text"
         placeholder="Category"
         name="category"
+        defaultValue={props.editingProduct.category}
         required
       />
       <input
@@ -74,6 +84,7 @@ export default function AddProductForm(props) {
         type="url"
         placeholder="Add logo url"
         name="url"
+        defaultValue={props.editingProduct.logo}
         required
       />
       <input
@@ -82,6 +93,7 @@ export default function AddProductForm(props) {
         type="url"
         placeholder="Link of product"
         name="productLink"
+        defaultValue={props.editingProduct.link}
         required
       />
       <input
@@ -90,9 +102,13 @@ export default function AddProductForm(props) {
         type="text"
         placeholder="Add description"
         name="description"
+        defaultValue={props.editingProduct.description}
         required
       />
-      <button onClick={() => createProduct()} className="addProductFormButton">
+      <button
+        onClick={() => createOrEditProduct()}
+        className="addProductFormButton"
+      >
         +Add
       </button>
     </div>
