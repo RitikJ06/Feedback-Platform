@@ -51,3 +51,8 @@
     font-weight: 500;
     text-wrap: nowrap;
 }
+@media(max-width:762px){
+    .formIcon{
+        width: 15%!important;
+    }
+}

@@ -6,10 +6,12 @@ import HeroSection from "./heroSection/HeroSection";
 import StatusBar from "./statusBar/StatusBar";
 import ProductBlock from "./productBlock/ProductBlock";
 import OverlayFormLayout from "../common/overlayFormLayouy/OverlayFormLayout";
-
 import SignupForm from "../common/SignupForm/SignupForm";
 import AddProductForm from "../addProductForm/AddProductForm";
+
 import { useState, useEffect, useRef } from "react";
+
+import loadingGif from './../../images/loading.gif'
 
 export default function Main() {
   const [isDesktop, setDesktop] = useState(window.innerWidth > 650);
@@ -193,7 +195,7 @@ export default function Main() {
                 : "productCardsWrapper productCardsWrapperRes"
             }
           >
-            {products.map((currentProduct, i) => (
+            {products.length !== 0 ? products.map((currentProduct, i) => (
               <ProductBlock
                 key={i}
                 isLoggedIn={isLoggedIn}
@@ -202,7 +204,10 @@ export default function Main() {
                 overlayWrapperRef={overlayWrapperRef}
                 setEditingProduct={setEditingProduct}
               />
-            ))}
+            ))
+              :
+              <img src={loadingGif} alt="loading..."/>          
+          }
           </div>
         </div>
       </div>

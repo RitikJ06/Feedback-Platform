@@ -71,6 +71,9 @@
 }
 .commentWrapper{
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cardDetailsTopSection{
     display: flex;
