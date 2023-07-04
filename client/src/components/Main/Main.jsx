@@ -5,9 +5,11 @@ import NavBar from "./navBar/NavBar";
 import HeroSection from "./heroSection/HeroSection";
 import StatusBar from "./statusBar/StatusBar";
 import ProductBlock from "./productBlock/ProductBlock";
-import OverlayFormLayout from "../common/overlayFormLayouy/OverlayFormLayout";
+import OverlayFormLayout from "./overlayFormLayout/OverlayFormLayout";
 import SignupForm from "../common/SignupForm/SignupForm";
-import AddProductForm from "../addProductForm/AddProductForm";
+import AddProductForm from "./addProductForm/AddProductForm";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useState, useEffect, useRef } from "react";
 
@@ -15,9 +17,6 @@ import loadingGif from './../../images/loading.gif'
 
 export default function Main() {
   const [isDesktop, setDesktop] = useState(window.innerWidth > 650);
-  const updateMedia = () => {
-    setDesktop(window.innerWidth > 650);
-  };
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [filters, setFilters] = useState(new Set(["All"]));
@@ -32,6 +31,11 @@ export default function Main() {
   const [productAdded, setProductAdded] = useState(0);
 
   const overlayWrapperRef = useRef();
+  
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 650);
+  };
+
   useEffect(() => {
     window.addEventListener("resize", updateMedia);
     return () => window.removeEventListener("resize", updateMedia);
@@ -62,28 +66,59 @@ export default function Main() {
       : setFormHeading("Signup to continue");
   }, [isLoggedIn, editingProduct]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+  useEffect(()=>{
+    try {
+      const auth = async () => {
         let storedData = JSON.parse(localStorage.getItem("data"));
         if (storedData) {
           const response = await axios.get(
-            process.env.REACT_APP_BASE_URL + "/autheticate",
-            {
-              headers: {
-                token: storedData.jwtToken,
-              },
-            }
+          process.env.REACT_APP_BASE_URL + "/autheticate",
+          {
+            headers: {
+              token: storedData.jwtToken,
+            },
+          }
           );
           if (response.data.status === 200) {
             setIsLoggedIn(true);
             setUserData(storedData);
           }
+          else{
+            setIsLoggedIn(false);
+            localStorage.clear('data');
+          }
         }
+      }
+      auth();
+    }
+    catch{
+      console.log('error! courld not authenticate user') 
+    }
 
-        // make api call to get all products to create filters list
-        const resAll = await axios.get(process.env.REACT_APP_BASE_URL + "/api/products");
+  }, [])
 
+  useEffect(() => {
+    const setNewFilters = async () => {
+      // make api call to get all products to create filters list
+      const resAll = await axios.get(process.env.REACT_APP_BASE_URL + "/api/products");
+
+      let all_filters = new Set();
+      resAll.data.map((item) => {
+        item.category.map((cate) => {
+          all_filters = all_filters.add(cate);
+        });
+      });
+      all_filters = new Set(["All", ...all_filters]);
+      setFilters(all_filters);
+      console.log("thisi s exe")
+    }
+    setNewFilters();
+  }, [productAdded])
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try { 
         // make api call to get products with filter and sorting
         const res = await axios.get(process.env.REACT_APP_BASE_URL + "/api/products", {
           params: {
@@ -92,18 +127,10 @@ export default function Main() {
           },
         });
 
-        let all_filters = new Set();
-        resAll.data.map((item) => {
-          item.category.map((cate) => {
-            all_filters = all_filters.add(cate);
-          });
-        });
-        all_filters = new Set(["All", ...all_filters]);
-        setFilters(all_filters);
         setProducts(res.data);
         setProductCount(res.data.length);
       } catch {
-        console.log("Someting went wrong!");
+        toast.error("Someting went wrong!")
       }
     };
     fetchData();
@@ -111,6 +138,7 @@ export default function Main() {
 
   return (
     <>
+      <ToastContainer position="bottom-left" />
       <NavBar
         isDesktop={isDesktop}
         userData={userData}

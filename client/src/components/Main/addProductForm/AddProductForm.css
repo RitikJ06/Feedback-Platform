@@ -30,6 +30,8 @@
     cursor: pointer;
     width: 33%;
     margin-top: 5%;
+    align-self: flex-start;
+    margin-left: 5%;
 }
 .addProductFormButtonRes{
     display: flex;

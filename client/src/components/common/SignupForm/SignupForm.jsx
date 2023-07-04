@@ -1,6 +1,6 @@
 import React from "react";
 import "./SignupForm.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default function SignupForm(props) {
   const emailRef = useRef();
   const mobileRef = useRef();
   const passwordRef = useRef();
-  const errRef = useRef();
+  const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
@@ -29,29 +29,28 @@ export default function SignupForm(props) {
         password: passwordRef.current.value,
       });
 
-      if (res.data.status === 200) {
-        localStorage.setItem(
-          "data",
-          JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
-        );
-        props.isMain ? navigate(0): navigate("/");
-      } else if (res.data.status === 403) {
-        errRef.current.innerHTML =
-          "User already exist with this email. Please login!";
-        errRef.current.style.display = "block";
-      } else {
-        errRef.current.innerHTML = "Server Error, Please Try again later";
-        errRef.current.style.display = "block";
+      switch (res.data.status) {
+        case 200:
+          localStorage.setItem(
+            "data",
+            JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
+          );
+          props.isMain ? navigate(0) : navigate("/");
+          break;
+        case 403:
+          setErrorMsg("Invalid credential, Please Try again!");
+          break;
+        default:
+          setErrorMsg("Server Error, Please Try again later");
       }
     } catch {
-      errRef.current.innerHTML = "Something went wrong, Please Try again later";
-      errRef.current.style.display = "block";
+      setErrorMsg("Something went wrong, Please Try again later.");
     }
   };
 
   return (
     <form onSubmit={(e) => handleSignup(e)} className="signupForm">
-      <div className="errBlock" ref={errRef}></div>
+      {errorMsg && <div className="errBlock">{errorMsg}</div>}
       <div className="formRow">
         <span className="formIcon">
           <img src={userIcon} alt="user-icon" />

@@ -1,7 +1,7 @@
 import React from "react";
 import "./LoginForm.css";
 import axios from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import emailIcon from "./../../../images/email_icon.svg";
@@ -11,7 +11,7 @@ import SignupForm from "../SignupForm/SignupForm";
 export default function LoginForm(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const errRef = useRef();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const navigate = useNavigate();
 
@@ -23,28 +23,28 @@ export default function LoginForm(props) {
         password: passwordRef.current.value,
       });
 
-      if (res.data.status === 200) {
-        localStorage.setItem(
-          "data",
-          JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
-        );
-        props.isMain ? navigate(0): navigate("/");
-      } else if (res.data.status === 401) {
-        errRef.current.innerHTML = "Invalid credential, Please Try again!";
-        errRef.current.style.display = "block";
-      } else {
-        errRef.current.innerHTML = "Server Error, Please Try again later";
-        errRef.current.style.display = "block";
+      switch (res.data.status) {
+        case 200:
+          localStorage.setItem(
+            "data",
+            JSON.stringify({ name: res.data.name, jwtToken: res.data.jwtToken })
+          );
+          props.isMain ? navigate(0) : navigate("/");
+          break;
+        case 401:
+          setErrorMsg("Invalid credential, Please Try again!");
+          break;
+        default:
+          setErrorMsg("Server Error, Please Try again later");
       }
     } catch {
-      errRef.current.innerHTML = "Something went wrong, Please Try again later";
-      errRef.current.style.display = "block";
+      setErrorMsg("Something went wrong, Please Try again later")
     }
   };
 
   return (
     <form onSubmit={(e) => handleLogin(e)} className="loginForm">
-      <div className="errBlock" ref={errRef}></div>
+      {errorMsg && <div className="errBlock">{errorMsg}</div>}
       <div className="formRow">
         <span className="formIcon">
           <img src={emailIcon} alt="email-icon" />
@@ -72,12 +72,18 @@ export default function LoginForm(props) {
         />
       </div>
       <div className="formRow">
-      Don’t have an account? &nbsp;
+        Don’t have an account? &nbsp;
         {props.isMain ? (
           <span
             onClick={() => {
-              props.setOverlayWrapperForm(<SignupForm setFormHeading={props.setFormHeading} isMain={props.isMain} setOverlayWrapperForm={props.setOverlayWrapperForm} />);
-              props.setFormHeading('Signup to continue')
+              props.setOverlayWrapperForm(
+                <SignupForm
+                  setFormHeading={props.setFormHeading}
+                  isMain={props.isMain}
+                  setOverlayWrapperForm={props.setOverlayWrapperForm}
+                />
+              );
+              props.setFormHeading("Signup to continue");
             }}
             className="formChanger"
           >

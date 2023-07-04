@@ -20,9 +20,12 @@
     margin: 0px 2%;
     color: white;
     text-decoration: none;
+    white-space: nowrap;
+    text-wrap: nowrap;
 }
 .userName{
     width: fit-content;
+    white-space: nowrap;
     text-wrap: nowrap;
 }
 .navLoginButton{
@@ -35,6 +38,7 @@
     font-weight: 500;
     text-wrap: nowrap;
     text-decoration: none;
+    white-space: nowrap;
 }
 .navSignupButton{
     background: #36416A;
@@ -47,6 +51,7 @@
     font-weight: 500;
     text-wrap: nowrap;
     text-decoration: none;
+    white-space: nowrap;
 }
 .userImage{
     width: 6%;

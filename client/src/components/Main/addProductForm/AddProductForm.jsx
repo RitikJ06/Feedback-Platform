@@ -124,7 +124,11 @@ export default function AddProductForm(props) {
       />
       <button
         onClick={() => createOrEditProduct()}
-        className={props.isDesktop ? "addProductFormButton" : "addProductFormButton addProductFormButtonRes"}
+        className={
+          props.isDesktop
+            ? "addProductFormButton"
+            : "addProductFormButton addProductFormButtonRes"
+        }
       >
         +Add
       </button>
