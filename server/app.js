@@ -35,7 +35,7 @@ const isAuthenticated = (req, res, next) => {
 };
 
 app.get('/autheticate', isAuthenticated, (req, res, next) => {
-  res.json({ status: 200, message: "Token is valid" })
+  res.json({ status: 202, message: "Token is valid" })
 })
 
 // api for user login

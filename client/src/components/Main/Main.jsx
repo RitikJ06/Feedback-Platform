@@ -79,7 +79,7 @@ export default function Main() {
             },
           }
           );
-          if (response.data.status === 200) {
+          if (response.data.status === 202) {
             setIsLoggedIn(true);
             setUserData(storedData);
           }
@@ -92,7 +92,7 @@ export default function Main() {
       auth();
     }
     catch{
-      console.log('error! courld not authenticate user') 
+      console.log('error! could not authenticate user') 
     }
 
   }, [])
@@ -110,7 +110,6 @@ export default function Main() {
       });
       all_filters = new Set(["All", ...all_filters]);
       setFilters(all_filters);
-      console.log("thisi s exe")
     }
     setNewFilters();
   }, [productAdded])
