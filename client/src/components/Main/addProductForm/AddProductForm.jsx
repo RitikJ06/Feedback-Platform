@@ -1,6 +1,7 @@
 import React from "react";
 import "./AddProductForm.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { useRef, useEffect } from "react";
 
@@ -73,6 +74,12 @@ export default function AddProductForm(props) {
         );
       }
       if (res.data.status === 201 || res.data.status === 200) {
+        if (res.data.status === 201){
+          toast.success("Product added successfully");
+        }
+        else{
+          toast.success("Product updated successfully");
+        }
         props.setProductAdded((value) => value + 1);
         props.overlayWrapperRef.current.style.display = "none";
       }
@@ -81,57 +88,59 @@ export default function AddProductForm(props) {
     }
   };
   return (
-    <div className="addProductForm">
-      <input
-        ref={nameRef}
-        className="productFormInput"
-        type="text"
-        placeholder="Name of the company"
-        name="name"
-        required
-      />
-      <input
-        ref={categoryRef}
-        className="productFormInput"
-        type="text"
-        placeholder="Category"
-        name="category"
-        required
-      />
-      <input
-        ref={logoRef}
-        className="productFormInput"
-        type="url"
-        placeholder="Add logo url"
-        name="url"
-        required
-      />
-      <input
-        ref={linkRef}
-        className="productFormInput"
-        type="url"
-        placeholder="Link of product"
-        name="productLink"
-        required
-      />
-      <input
-        ref={descriptionRef}
-        className="productFormInput"
-        type="text"
-        placeholder="Add description"
-        name="description"
-        required
-      />
-      <button
-        onClick={() => createOrEditProduct()}
-        className={
-          props.isDesktop
-            ? "addProductFormButton"
-            : "addProductFormButton addProductFormButtonRes"
-        }
-      >
-        +Add
-      </button>
-    </div>
+    <>
+      <div className="addProductForm">
+        <input
+          ref={nameRef}
+          className="productFormInput"
+          type="text"
+          placeholder="Name of the company"
+          name="name"
+          required
+        />
+        <input
+          ref={categoryRef}
+          className="productFormInput"
+          type="text"
+          placeholder="Category"
+          name="category"
+          required
+        />
+        <input
+          ref={logoRef}
+          className="productFormInput"
+          type="url"
+          placeholder="Add logo url"
+          name="url"
+          required
+        />
+        <input
+          ref={linkRef}
+          className="productFormInput"
+          type="url"
+          placeholder="Link of product"
+          name="productLink"
+          required
+        />
+        <input
+          ref={descriptionRef}
+          className="productFormInput"
+          type="text"
+          placeholder="Add description"
+          name="description"
+          required
+        />
+        <button
+          onClick={() => createOrEditProduct()}
+          className={
+            props.isDesktop
+              ? "addProductFormButton"
+              : "addProductFormButton addProductFormButtonRes"
+          }
+        >
+          +Add
+        </button>
+      </div>
+    </>
   );
 }
