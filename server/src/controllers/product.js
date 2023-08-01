@@ -34,25 +34,26 @@ module.exports.getProducts = async (req, res, next) => {
   try {
     const { filterByCategory, sortBy } = req.query;
     let products;
-    if (filterByCategory) {
-      products = await Product.find({
-        category: filterByCategory,
-      });
-    } else {
-      products = await Product.find();
-    }
+    // filterByCategory = "Fintech"
+    products = await Product.aggregate([
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          category: 1,
+          logo: 1,
+          link: 1,
+          description: 1,
+          comments: 1,
+          upvotes: 1,
+          numComments: { $size: "$comments" },
+        },
+      },
+      { $match: filterByCategory ? {category: filterByCategory } : {} },
+      { $sort: sortBy === "comments" ? { numComments: -1 } : { upvotes: -1 } }
+      ]);
 
-    let sortedProducts = [];
-    if (sortBy === "comments") {
-      sortedProducts = products.sort((a, b) =>
-        a.comments.length > b.comments.length ? -1 : 1
-      );
-    } else {
-      sortedProducts = products.sort((a, b) =>
-        a.upvotes > b.upvotes ? -1 : 1
-      );
-    }
-    res.json(sortedProducts);
+    res.json(products);
   } catch {
     const err = new Error("Error Fetching products");
     err.status = 500;
